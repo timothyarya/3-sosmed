@@ -6,11 +6,7 @@ export const authOptions = {
         Credentials({
             credentials: {username: {}, password: {}},
             authorize: async (credentials, req) => {
-                console.log(credentials.username, credentials.password);
-
                 return {
-                    id: '1213123131',
-                    email: credentials.username,
                     username: credentials.username,
                     password: credentials.password,
                 }
