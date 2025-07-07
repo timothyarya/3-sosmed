@@ -1,30 +1,27 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react'
-import {signIn, useSession} from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Navbar from './components/Navbar/Navbar';
-
-
+import React, { useContext, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Navbar from "./components/Navbar/Navbar";
+import AuthContext from "./context/AuthContext";
 
 const page = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { session } = useContext(AuthContext);
 
   useEffect(() => {
-    if (status !== 'loading') {
-      if (!session?.user) {
-        router.push('/login')
-      }
+    if (!session) {
+      router.push("/login");
     }
-  }, [status]);
+  }, [session]);
 
   return (
     <>
       <Navbar />
       <div>Home Page</div>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
