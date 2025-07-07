@@ -4,16 +4,23 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// The generator block specifies the Prisma Client generation and its output directory.
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
+// The datasource block defines the database connection.
+// Here, we're using SQLite with the connection URL specified in the environment variable DATABASE_URL.
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
+// The User model represents users in the application.
+// Each user has a unique ID, username, and email. They can optionally have a nickname and a profile photo.
+// The isVerified and isAdmin fields are boolean flags with default values set to false.
+// A user can have multiple posts.
 model User {
   id          String @id @default(cuid())
   username    String @unique
@@ -22,10 +29,12 @@ model User {
   password    String 
   isVerified  Boolean @default(false)
   isAdmin     Boolean @default(false)
-  photo ProfilePhoto?
-  posts Post[]
+  photo       ProfilePhoto?
+  posts       Post[]
 }
 
+// The ProfilePhoto model stores profile photos for users.
+// It has a one-to-one relation with the User model, linked through userId.
 model ProfilePhoto {
   id        String @id @default(cuid())
   mimetype  String 
@@ -34,6 +43,9 @@ model ProfilePhoto {
   userId    String @unique
 }
 
+// The Post model represents posts made by users.
+// Each post contains content and can have multiple images associated with it.
+// It has a many-to-one relation with the User model, linked through userId.
 model Post {
   id      String @id @default(cuid())
   images  Image[]
@@ -42,6 +54,8 @@ model Post {
   userId  String @unique
 }
 
+// The Image model stores images that are part of posts.
+// It has a one-to-one relation with the Post model, linked through postId.
 model Image {
   id        String @id @default(cuid())
   mimetype  String 
@@ -49,3 +63,4 @@ model Image {
   post      Post  @relation(fields: [postId], references: [id])
   postId    String @unique
 }
+
