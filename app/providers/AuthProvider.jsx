@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
           </h1>
         </div>
       )}
-      {children}
+      {status !== "loading" && children}
     </AuthContext.Provider>
   );
 };
