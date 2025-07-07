@@ -1,15 +1,33 @@
-'use client';
+"use client";
 
-import React from 'react'
-import { SessionProvider } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import AuthContext from "../context/AuthContext";
 
+const AuthProvider = ({ children }) => {
+  const { data: session, status } = useSession();
+  const [data, setData] = useState({});
 
-const AuthProvider = ({children}) => {
+  useEffect(() => {
+    if (status === "authenticated") {
+      setData({ authenticated: true, session });
+    } else {
+      setData({ authenticated: false });
+    }
+  }, [session, status]);
+
   return (
-    <SessionProvider>
-        {children}
-    </SessionProvider>
-  )
-}
+    <AuthContext.Provider value={data}>
+      {!data && status === "loading" && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-black flex justify-center items-center">
+          <h1 className="text-2xl text-white font-black">
+            Loading account data...
+          </h1>
+        </div>
+      )}
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;
