@@ -24,7 +24,7 @@ export const validateUsers = async (
 
   // Check if username and password are provided
   if (!username || !password)
-    res.status(StatusCodes.BAD_REQUEST).json({ error: "Data not provided" });
+    return res.json({ success: false, msg: "Data not provided" });
 
   try {
     // Find the user by the provided username
@@ -36,19 +36,15 @@ export const validateUsers = async (
 
     if (!user)
       // If the user is not found, return a 404 status with an error message
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User tidak terdaftar" });
+      return res.json({ success: false, msg: "User tidak terdaftar" });
 
     // Compare the provided password with the password stored in the database
     if (!(await bcrypt.compare(password, user.password)))
       // If the password does not match, return a 401 status with an error message
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ error: "Password salah!" });
+      return res.json({ success: false, msg: "Password salah!" });
 
     // If the credentials are valid, return a 200 status with the user data
-    res.status(StatusCodes.OK).json(user);
+    res.json({ success: true, msg: "User found", user });
   } catch (error) {
     console.log(error);
   }
@@ -78,13 +74,11 @@ export const getUserByID = async (
 
     if (!user) {
       // If the user is not found, return a 404 status with an error message
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User tidak terdaftar" });
+      return res.json({ success: false, msg: "User tidak terdaftar" });
     }
 
     // If the user is found, return a 200 status with the user data
-    return res.status(StatusCodes.OK).json(user);
+    return res.json({ success: true, msg: "User found", user });
   } catch (error) {
     console.log(error);
   }
@@ -108,7 +102,7 @@ export const getUsersByQuery = async (
     if (!query) {
       // If the query is not provided, return all users
       const users = await db.user.findMany();
-      return res.json(users);
+      return res.json({ success: true, msg: "All users", users });
     }
 
     // Search for users that match the query in the username, email, and nickname fields
@@ -134,7 +128,7 @@ export const getUsersByQuery = async (
       },
     });
 
-    res.json(users);
+    res.json({ success: true, msg: `Users with query ${query}`, users });
   } catch (error) {
     console.log(error);
   }
@@ -157,19 +151,16 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
 
   // Validate request body
   if (!username || !nickname || !password || !confirmPassword || !email)
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: "Bad data provided." });
+    return res.json({ success: false, msg: "Bad data provided." });
 
   if (username.length < 4)
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: "Minimum username length is 4" });
+    return res.json({ success: false, msg: "Minimum username length is 4" });
 
   if (password !== confirmPassword)
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: "Confirmation password not valid." });
+    return res.json({
+      success: false,
+      msg: "Confirmation password not valid.",
+    });
 
   try {
     // Check if user exists
@@ -187,9 +178,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (userExists)
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ error: "User sudah terdaftar" });
+      return res.json({ success: false, msg: "User sudah terdaftar" });
 
     // Hash password
     const salt = await bcrypt.genSalt();
@@ -205,9 +194,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
       },
     });
 
-    res
-      .status(StatusCodes.CREATED)
-      .json({ msg: "new user registered", user: newUser });
+    res.json({ success: true, msg: "new user registered", user: newUser });
   } catch (error) {
     console.log(error);
   }
@@ -227,9 +214,7 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
 
   // Need id and request body to update user.
   if (!req.body || !id)
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: "Need id or empty changes" });
+    return res.json({ success: false, msg: "Need id or empty changes" });
 
   try {
     const user = await db.user.update({
@@ -239,7 +224,66 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
       // Update user with new data.
       data: req.body,
     });
-    res.json({ newData: user });
+    res.json({ success: true, msg: "User updated", user });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setProfilePhoto = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { id } = req.params;
+
+  if (!req.file) return res.json({ success: false, msg: "Image not provided" });
+
+  if (!id) return res.json({ success: false, msg: "Data not provided" });
+
+  try {
+    const { buffer, mimetype } = req.file;
+
+    await db.profilePhoto.upsert({
+      update: {
+        data: buffer,
+        mimetype,
+      },
+      where: {
+        userId: id,
+      },
+      create: {
+        data: buffer,
+        mimetype,
+        userId: id,
+      },
+    });
+
+    res.json({ success: true, msg: "Profile photo changed successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProfilePhoto = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { id } = req.params;
+
+  if (!id) return res.json({ success: false, msg: "Data not provided" });
+
+  try {
+    const profilePhoto = await db.profilePhoto.findUnique({
+      where: {
+        userId: id,
+      },
+    });
+
+    if (!profilePhoto)
+      return res.json({
+        success: false,
+        msg: "User doesnt have any profile photo.",
+      });
   } catch (error) {
     console.log(error);
   }
