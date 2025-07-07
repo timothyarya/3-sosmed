@@ -8,14 +8,11 @@ export default winston.createLogger({
     timestamp({ format: timestampFormat }),
     json(),
     printf(({ timestamp, level, message, ...data }) => {
-      const response = {
-        level,
-        message,
-        data, // metadata
-      };
-
-      return `[${level.toUpperCase()}] ${message}`;
+      return `[${level.toUpperCase()}] ${message} [${timestamp}]`;
     })
   ),
-  transports: [new winston.transports.Console()],
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "server.log" }),
+  ],
 });
