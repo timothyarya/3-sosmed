@@ -12,12 +12,16 @@
   --background: #171717;
   --foreground: #ffffff;
   --nav-text: #171717;
-  --nav: #a9adb0;
-  --nav-secondary: #898e92;
+  --nav: #d6d8da;
+  --nav-secondary: #abaeb0;
 }
 
 .button {
   background-color: var(--foreground);
+}
+
+.default-transition {
+  @apply transition ease-in-out duration-300;
 }
 
 @theme inline {
@@ -28,7 +32,6 @@
   --color-nav-text: var(--nav-text);
   --color-nav: var(--nav);
   --color-nav-secondary: var(--nav-secondary);
-
 }
 
 /* @media (prefers-color-scheme: dark) {

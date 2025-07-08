@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <section className="flex h-dvh w-dvw justify-center items-center">
       <button className="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>theme</button>
-      <div className="flex flex-col bg-nav rounded-2xl p-10 justify-between items-start gap-7 w-100">
+      <div className="flex flex-col bg-nav rounded-2xl p-10 justify-between items-start gap-7 w-100 default-transition">
         <div className="flex flex-col w-full justify-center items-center text-center gap-1">
           <h1 className="font-black text-4xl text-nav-text font-mono antialiased">Welcome</h1>
 
@@ -80,7 +80,7 @@ const Login = () => {
           <div className="flex flex-col items-center justify-center w-full">
             <button
               type="submit"
-              className="bg-nav-secondary rounded-lg px-5 py-3 text-center font-bold text-nav-text text-xl font-mono cursor-pointer transition ease-in-out duration-300 hover:scale-105"
+              className="bg-nav-secondary rounded-lg px-5 py-3 text-center font-bold text-nav-text text-xl font-mono cursor-pointer hover:scale-105"
             >
               Login
             </button>
