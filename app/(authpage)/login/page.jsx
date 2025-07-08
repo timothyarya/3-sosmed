@@ -30,8 +30,12 @@ const Login = () => {
 
   
   return (
-    <section className="flex h-dvh w-dvw justify-center items-center">
-      <button className="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>theme</button>
+    <section className="flex flex-col h-dvh w-dvw justify-center items-center gap-3 select-none">
+        <div className="flex bg-nav w-100 rounded-2xl p-3 justify-center text-nav-text font-bold cursor-pointer default-transition" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+          <h1>Click Here to Change Theme. Current: {theme}</h1>
+        </div>
+  
+        
       <div className="flex flex-col bg-nav rounded-2xl p-10 justify-between items-start gap-7 w-100 default-transition">
         <div className="flex flex-col w-full justify-center items-center text-center gap-1">
           <h1 className="font-black text-4xl text-nav-text font-mono antialiased">Welcome</h1>
