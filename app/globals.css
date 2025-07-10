@@ -3,17 +3,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --nav-text: #ffffff;
-  --nav: #272c2f;
-  --nav-secondary: #475258;
+  --login-text: #ffffff;
+  --login: #272c2f;
+  --login-secondary: #475258;
+  --navbar-bg: #ffffff;
+  --navbar-bg-secondary: #9f9f9f;
+  --navbar-text-color: #171717;
 }
 
 [data-theme='dark'] {
   --background: #171717;
   --foreground: #ffffff;
-  --nav-text: #171717;
-  --nav: #d6d8da;
-  --nav-secondary: #abaeb0;
+  --login-text: #171717;
+  --login: #d6d8da;
+  --login-secondary: #abaeb0;
+  --navbar-bg: #171717;
+  --navbar-bg-secondary: #3f3f3f;
+  --navbar-text-color: #ffffff;
 }
 
 .button {
@@ -29,9 +35,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-nav-text: var(--nav-text);
-  --color-nav: var(--nav);
-  --color-nav-secondary: var(--nav-secondary);
+  --color-login-text: var(--login-text);
+  --color-login: var(--login);
+  --color-login-secondary: var(--login-secondary);
+  --color-nav-bg: var(--navbar-bg);
+  --color-nav-bg-secondary: var(--navbar-bg-secondary);
+  --color-nav-text: var(--navbar-text-color);
 }
 
 /* @media (prefers-color-scheme: dark) {
