@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar/Navbar";
 import AuthContext from "./context/AuthContext";
 import { useTheme } from "next-themes";
-import Wrapper from "./components/Wrapper/Wrapper";
+import UiWrapper from "./components/Wrapper/UiWrapper";
+import ContentWrapper from "./components/Wrapper/ContentWrapper";
+import ContentCard from "./components/Content/ContentCard";
 
 
 const page = () => {
@@ -26,9 +28,11 @@ const page = () => {
 
   return (
     <>
-      <Wrapper>
-      <h1>haiaiaiai</h1>
-      </Wrapper>
+    <UiWrapper>
+      <ContentWrapper>
+        <ContentCard tweetContent={'Pariwisata berkelanjutan menjadi solusi penting untuk menjaga kelestarian alam dan budaya suatu daerah. Dengan menerapkan praktik ramah lingkungan, seperti mengurangi sampah plastik dan mendukung usaha lokal, kita bisa menikmati keindahan destinasi wisata tanpa merusak ekosistem. Selain itu, edukasi kepada pengunjung tentang pentingnya menjaga kebersihan dan menghormati adat setempat juga menjadi kunci agar pariwisata bisa berkembang secara bertanggung jawab untuk generasi mendatang.'}/>
+      </ContentWrapper>
+    </UiWrapper>
     </>
     
   )

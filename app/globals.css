@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f0f0f;
   --login-text: #ffffff;
   --login: #272c2f;
   --login-secondary: #475258;
@@ -12,12 +12,12 @@
 }
 
 [data-theme='dark'] {
-  --background: #171717;
+  --background: #0f0f0f;
   --foreground: #ffffff;
   --login-text: #171717;
   --login: #d6d8da;
   --login-secondary: #abaeb0;
-  --navbar-bg: #171717;
+  --navbar-bg: #0f0f0f;
   --navbar-bg-secondary: #3f3f3f;
   --navbar-text-color: #ffffff;
 }

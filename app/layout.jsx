@@ -4,6 +4,8 @@ import AuthProvider from "./providers/AuthProvider";
 import SessionProvider from "./providers/SessionProvider";
 import { ThemeProvider } from "next-themes";
 
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,13 +27,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <AuthProvider>
-            <ThemeProvider>
-              {children}
-            </ThemeProvider>
-          </AuthProvider>
-        </SessionProvider>
+
+          <SessionProvider>
+            <AuthProvider>
+              <ThemeProvider>
+                {children}
+              </ThemeProvider>
+            </AuthProvider>
+          </SessionProvider>
+
       </body>
     </html>
   );

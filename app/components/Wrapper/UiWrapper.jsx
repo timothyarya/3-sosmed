@@ -1,15 +1,15 @@
 import Navbar from "../Navbar/Navbar"
 
-const Wrapper = ({children}) => {
+const UiWrapper = ({children}) => {
     return (
         <>
-        <section className="flex flex-row gap-10">
+        <main className="flex flex-row gap-10 px-30">
             <Navbar />
             {children}
-        </section>
+        </main>
             
         </>
     )
 }
 
-export default Wrapper
+export default UiWrapper
